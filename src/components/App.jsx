@@ -6,24 +6,6 @@ import Section from './Section/Section';
 import Notification from './Notification/Notification';
 
 class App extends React.Component {
-  handleGood = () => {
-    this.setState(prevState => ({
-      good: prevState.good + 1,
-    }));
-  };
-
-  handleNeutral = () => {
-    this.setState(prevState => ({
-      neutral: prevState.neutral + 1,
-    }));
-  };
-
-  handleBad = () => {
-    this.setState(prevState => ({
-      bad: prevState.bad + 1,
-    }));
-  };
-
   state = {
     good: 0,
     neutral: 0,
@@ -42,18 +24,9 @@ class App extends React.Component {
     return Math.floor((this.state.good / total) * 100);
   }
 
-  handleLeaveFeedback = feedback => {
+  handleLeaveFeedback = option => {
     this.setState(prevState => {
-      switch (feedback) {
-        case 'Good':
-          return { good: prevState.good + 1 };
-        case 'Neutral':
-          return { neutral: prevState.neutral + 1 };
-        case 'Bad':
-          return { bad: prevState.bad + 1 };
-        default:
-          return prevState;
-      }
+      return { ...prevState, [option]: prevState[option] + 1 };
     });
   };
 
@@ -64,7 +37,7 @@ class App extends React.Component {
       <>
         <Section title="Please leave feedback">
           <FeedbackOptions
-            options={['Good', 'Neutral', 'Bad']}
+            options={Object.keys(this.state)}
             onLeaveFeedback={this.handleLeaveFeedback}
           />
         </Section>
